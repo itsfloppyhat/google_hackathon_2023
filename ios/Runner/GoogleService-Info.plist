@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>976346295511-ose8nb8bt7n92mvb4m9sv6f7gknkb8te.apps.googleusercontent.com</string>
+	<string>31112100824-nrhas4pe2lnnr8jlj4kpcn0ju17j5d7g.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.976346295511-ose8nb8bt7n92mvb4m9sv6f7gknkb8te</string>
+	<string>com.googleusercontent.apps.31112100824-nrhas4pe2lnnr8jlj4kpcn0ju17j5d7g</string>
 	<key>API_KEY</key>
-	<string>AIzaSyD-0HewtPFslRUj1viWNv1LiLGsbAZvySM</string>
+	<string>AIzaSyD1kSY3wY3c5KH3IgiAY3FZIAQxXNVzy0w</string>
 	<key>GCM_SENDER_ID</key>
-	<string>976346295511</string>
+	<string>31112100824</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.googleHackathon2023</string>
 	<key>PROJECT_ID</key>
-	<string>flutter-dash-g23</string>
+	<string>flutter-dash-g2023</string>
 	<key>STORAGE_BUCKET</key>
-	<string>flutter-dash-g23.appspot.com</string>
+	<string>flutter-dash-g2023.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:976346295511:ios:3cdfc4698767365a8e5492</string>
+	<string>1:31112100824:ios:b3a197bfa31146940bd0ad</string>
 </dict>
 </plist>

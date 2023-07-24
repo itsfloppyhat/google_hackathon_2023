@@ -44,39 +44,39 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAc9edES1If6cADNZdbwcOtXsV_AD71Qhk',
-    appId: '1:976346295511:web:2def66c212c474508e5492',
-    messagingSenderId: '976346295511',
-    projectId: 'flutter-dash-g23',
-    authDomain: 'flutter-dash-g23.firebaseapp.com',
-    storageBucket: 'flutter-dash-g23.appspot.com',
+    apiKey: 'AIzaSyCnPi9gkvlZAt5z5LRMh9T3Y3ulWDWKLTI',
+    appId: '1:31112100824:web:e4d208c5bcf9197a0bd0ad',
+    messagingSenderId: '31112100824',
+    projectId: 'flutter-dash-g2023',
+    authDomain: 'flutter-dash-g2023.firebaseapp.com',
+    storageBucket: 'flutter-dash-g2023.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCuFIc7SpYjowJfnKe7EGPzT8BYBHYXLC0',
-    appId: '1:976346295511:android:aa86b7593aa9c9b78e5492',
-    messagingSenderId: '976346295511',
-    projectId: 'flutter-dash-g23',
-    storageBucket: 'flutter-dash-g23.appspot.com',
+    apiKey: 'AIzaSyBGp74TEXqyUy2zkek-i34W56wpZ1PfPJ4',
+    appId: '1:31112100824:android:18df529e9fde83500bd0ad',
+    messagingSenderId: '31112100824',
+    projectId: 'flutter-dash-g2023',
+    storageBucket: 'flutter-dash-g2023.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD-0HewtPFslRUj1viWNv1LiLGsbAZvySM',
-    appId: '1:976346295511:ios:3cdfc4698767365a8e5492',
-    messagingSenderId: '976346295511',
-    projectId: 'flutter-dash-g23',
-    storageBucket: 'flutter-dash-g23.appspot.com',
-    iosClientId: '976346295511-ose8nb8bt7n92mvb4m9sv6f7gknkb8te.apps.googleusercontent.com',
+    apiKey: 'AIzaSyD1kSY3wY3c5KH3IgiAY3FZIAQxXNVzy0w',
+    appId: '1:31112100824:ios:b3a197bfa31146940bd0ad',
+    messagingSenderId: '31112100824',
+    projectId: 'flutter-dash-g2023',
+    storageBucket: 'flutter-dash-g2023.appspot.com',
+    iosClientId: '31112100824-nrhas4pe2lnnr8jlj4kpcn0ju17j5d7g.apps.googleusercontent.com',
     iosBundleId: 'com.example.googleHackathon2023',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyD-0HewtPFslRUj1viWNv1LiLGsbAZvySM',
-    appId: '1:976346295511:ios:dcbb4d03a14cd22b8e5492',
-    messagingSenderId: '976346295511',
-    projectId: 'flutter-dash-g23',
-    storageBucket: 'flutter-dash-g23.appspot.com',
-    iosClientId: '976346295511-spnjvp5q43mnlphmr1l2jiu1odfphv7r.apps.googleusercontent.com',
+    apiKey: 'AIzaSyD1kSY3wY3c5KH3IgiAY3FZIAQxXNVzy0w',
+    appId: '1:31112100824:ios:a106bfea594a29220bd0ad',
+    messagingSenderId: '31112100824',
+    projectId: 'flutter-dash-g2023',
+    storageBucket: 'flutter-dash-g2023.appspot.com',
+    iosClientId: '31112100824-0m3m8v8gtd3mv60c4ma811rtun5cuatd.apps.googleusercontent.com',
     iosBundleId: 'com.example.googleHackathon2023.RunnerTests',
   );
 }
