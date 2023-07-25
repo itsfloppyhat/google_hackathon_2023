@@ -1,9 +1,12 @@
+//import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_hackathon_2023/pages/register_page.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  final VoidCallback showSignUpPage;
+  const LoginPage({Key? key, required this.showSignUpPage}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -13,11 +16,17 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  
+
   Future signInWithEmailAndPassword() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
+    
+    
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),
     );
+    
+    
   }
 
   @override
@@ -28,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 20, 3, 3),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -61,14 +70,17 @@ class _LoginPageState extends State<LoginPage> {
                       border: Border.all(color: Colors.white),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: TextField(
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Username',
-                      ),
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 172, 237, 81),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: TextField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Username',
+                        ),
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 172, 237, 81),
+                        ),
                       ),
                     ),
                   ),
@@ -84,15 +96,18 @@ class _LoginPageState extends State<LoginPage> {
                       border: Border.all(color: Colors.white),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: TextField(
-                      obscureText: true,
-                      controller: _passwordController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Password',
-                      ),
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 172, 237, 81),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: TextField(
+                        obscureText: true,
+                        controller: _passwordController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Password',
+                        ),
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 172, 237, 81),
+                        ),
                       ),
                     ),
                   ),
@@ -126,11 +141,16 @@ class _LoginPageState extends State<LoginPage> {
                       style:
                           TextStyle(color: Color.fromARGB(255, 172, 237, 81)),
                     ),
-                    Text(
-                      ' Register now',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 172, 237, 81)),
+                    GestureDetector(
+                      // go to register page
+                      onTap: widget.showSignUpPage,                       //Navigator.push(context, MaterialPageRoute(builder: (builder) => RegisterPage() ));
+                        child: Text(
+                          ' Register now',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 172, 237, 81)),
+                        ),
+                      
                     ),
                   ],
                 )
