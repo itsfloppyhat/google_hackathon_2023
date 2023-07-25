@@ -2,16 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_hackathon_2023/pages/register_page.dart';
+import 'package:google_hackathon_2023/auth/register_page.dart';
 
 class LoginPage extends StatefulWidget {
-<<<<<<< HEAD:lib/pages/login_page.dart
-  final VoidCallback showSignUpPage;
-  const LoginPage({Key? key, required this.showSignUpPage}) : super(key: key);
-=======
   final VoidCallback showRegisterPage;
   const LoginPage({Key? key, required this.showRegisterPage}) : super(key: key);
->>>>>>> main:lib/auth/login_page.dart
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -147,17 +142,6 @@ class _LoginPageState extends State<LoginPage> {
                           TextStyle(color: Color.fromARGB(255, 172, 237, 81)),
                     ),
                     GestureDetector(
-<<<<<<< HEAD:lib/pages/login_page.dart
-                      // go to register page
-                      onTap: widget.showSignUpPage,                       //Navigator.push(context, MaterialPageRoute(builder: (builder) => RegisterPage() ));
-                        child: Text(
-                          ' Register now',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 172, 237, 81)),
-                        ),
-                      
-=======
                       onTap: widget.showRegisterPage,
                       child: Text(
                         ' Register now',
@@ -165,7 +149,6 @@ class _LoginPageState extends State<LoginPage> {
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 172, 237, 81)),
                       ),
->>>>>>> main:lib/auth/login_page.dart
                     ),
                   ],
                 )
