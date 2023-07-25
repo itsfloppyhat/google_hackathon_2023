@@ -1,29 +1,46 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class LoginPage extends StatefulWidget {
-  final VoidCallback showRegisterPage;
-  const LoginPage({Key? key, required this.showRegisterPage}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  final VoidCallback showLoginPage;
+  const RegisterPage({super.key, required this.showLoginPage});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
-  Future signInWithEmailAndPassword() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _emailController.text.trim(),
-      password: _passwordController.text.trim(),
-    );
-  }
+  final _displayNameController = TextEditingController();
+  final _favoriteBandsController = TextEditingController();
 
   @override
   void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _displayNameController.dispose();
+    _favoriteBandsController.dispose();
     super.dispose();
+  }
+
+  Future signUp() async {
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim());
+    addUserDetails(_displayNameController.text.trim(),
+        _favoriteBandsController.text.trim(), _emailController.text.trim());
+  }
+
+  Future addUserDetails(
+      String displayName, String favoriteBands, String email) async {
+    await FirebaseFirestore.instance.collection('users').add({
+      'displayName': displayName,
+      'favoriteBands': favoriteBands,
+      'email': email
+    });
   }
 
   @override
@@ -39,13 +56,13 @@ class _LoginPageState extends State<LoginPage> {
                 Icon(Icons.flutter_dash,
                     size: 100, color: Color.fromARGB(255, 172, 237, 81)),
                 Text(
-                  'Hello Again!',
+                  'Hello There!',
                   style: GoogleFonts.bebasNeue(
                       fontSize: 40, color: Color.fromARGB(255, 172, 237, 81)),
                 ),
                 SizedBox(height: 10),
                 Text(
-                  "Let's run it back",
+                  "Register Below and lets do this",
                   style: TextStyle(
                     fontSize: 20,
                     color: Color.fromARGB(255, 172, 237, 81),
@@ -63,10 +80,56 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: TextField(
+                      controller: _displayNameController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'display name',
+                      ),
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 172, 237, 81),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(244, 244, 244, 0.561),
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: TextField(
+                      controller: _favoriteBandsController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'List your favorite bands!',
+                      ),
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 172, 237, 81),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(244, 244, 244, 0.561),
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: TextField(
                       controller: _emailController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Username',
+                        hintText: 'Email',
                       ),
                       style: TextStyle(
                         color: Color.fromARGB(255, 172, 237, 81),
@@ -109,9 +172,9 @@ class _LoginPageState extends State<LoginPage> {
                             backgroundColor: Color.fromARGB(255, 172, 237, 81),
                             minimumSize: Size(double.infinity, 40)),
                         onPressed: () {
-                          signInWithEmailAndPassword();
+                          signUp();
                         },
-                        child: const Text("Sign In"),
+                        child: const Text("Sign Up"),
                       ),
                     ),
                   ),
@@ -123,14 +186,14 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Not a member?',
+                      'I am a member!',
                       style:
                           TextStyle(color: Color.fromARGB(255, 172, 237, 81)),
                     ),
                     GestureDetector(
-                      onTap: widget.showRegisterPage,
+                      onTap: widget.showLoginPage,
                       child: Text(
-                        ' Register now',
+                        ' Login now',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 172, 237, 81)),
