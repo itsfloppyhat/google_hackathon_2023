@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_hackathon_2023/auth/register_page.dart';
-import 'package:google_hackathon_2023/login_page.dart';
+import 'package:google_hackathon_2023/auth/login_page.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});

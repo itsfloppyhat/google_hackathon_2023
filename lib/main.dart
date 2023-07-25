@@ -4,7 +4,7 @@ import 'package:google_hackathon_2023/auth/main_page.dart';
 import 'auth/firebase_options.dart';
 import 'package:provider/provider.dart';
 
-import 'app_state.dart';
+import 'auth/app_state.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
