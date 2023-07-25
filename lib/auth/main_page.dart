@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_hackathon_2023/auth/auth_page.dart';
-import 'package:google_hackathon_2023/home_screens/home_page.dart';
+//import 'package:google_hackathon_2023/pages/home_page.dart';
+import 'package:google_hackathon_2023/pages/home_page.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
