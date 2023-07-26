@@ -34,11 +34,18 @@ class _RunDesignState extends State<RunDesignPage> {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
+  
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  void refreshPage (){
+   setState(() {
+    print("RESETTING STATE");
+  });
+  }
   int _goalTime = 0;
   double _distance = 0.0;
   String _effort = 'Easy Run';
@@ -104,7 +111,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child: FloatingActionButton.extended(
           onPressed: () {
             // action
-           Navigator.push(context, MaterialPageRoute(builder: ((context) => RunningDashboard(hour: 1, minute: 1, second: 1, miles: 1, pace: "Hello"))));
+           Navigator.push(context, MaterialPageRoute(builder: ((context) => RunningDashboard(hour: 1, minute: 1, second: 1, miles: 1, pace: "Hello")))).then((_) {
+             setState(() {
+            
+  });
+           }).onError((error, stackTrace) {print("ERROR");});
           },
           label: const Text('GO'),
           backgroundColor: Colors.green,
