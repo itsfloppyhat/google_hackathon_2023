@@ -13,21 +13,21 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.googleHackathon2023</string>
+	<string>com.example.googleHackathon2023.</string>
 	<key>PROJECT_ID</key>
 	<string>flutter-dash-g2023</string>
 	<key>STORAGE_BUCKET</key>
 	<string>flutter-dash-g2023.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:31112100824:ios:b3a197bfa31146940bd0ad</string>
 </dict>

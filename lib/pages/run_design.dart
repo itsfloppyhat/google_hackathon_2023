@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_hackathon_2023/pages/running_dashboard.dart';
@@ -11,8 +10,6 @@ class RunDesignPage extends StatefulWidget {
 }
 
 class _RunDesignState extends State<RunDesignPage> {
-  final user = FirebaseAuth.instance.currentUser!;
-  
 
   @override
   Widget build(BuildContext context) {
@@ -262,25 +259,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Text('Signed in as ${user.email!}'),
-//             MaterialButton(
-//               onPressed: () {
-//                 FirebaseAuth.instance.signOut();
-//               },
-//               color: Colors.deepPurple[200],
-//               child: Text('sign out'),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

@@ -20,13 +20,6 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             Text('Signed in as ${user.email!}'),
 
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => RunDesignPage()),);
-              },
-              
-              child: Text("Start Run")),
-
             Text("View Run history"),
 
             Text("Coaches"),

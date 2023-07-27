@@ -6,6 +6,7 @@ import 'package:google_hackathon_2023/pages/home_page.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +14,7 @@ class MainPage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return HomePage();
+            return HomePage(currentUser: FirebaseAuth.instance.currentUser.toString(),);
           } else {
             return AuthPage();
           }
