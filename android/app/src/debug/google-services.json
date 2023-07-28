@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "31112100824",
+    "project_id": "flutter-dash-g2023",
+    "storage_bucket": "flutter-dash-g2023.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:31112100824:android:18df529e9fde83500bd0ad",
+        "android_client_info": {
+          "package_name": "com.example.google_hackathon_2023"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "31112100824-g1jnlk30p78j06h5p46mupt3fco0df27.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGp74TEXqyUy2zkek-i34W56wpZ1PfPJ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "31112100824-g1jnlk30p78j06h5p46mupt3fco0df27.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "31112100824-0m3m8v8gtd3mv60c4ma811rtun5cuatd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.googleHackathon2023.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
