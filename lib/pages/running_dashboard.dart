@@ -4,6 +4,7 @@ import 'package:health/health.dart';
 import 'dart:async';
 import 'package:google_hackathon_2023/widgets/healthcard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 
 /*
@@ -32,7 +33,8 @@ class RunningDashboard extends StatefulWidget {
   State<RunningDashboard> createState() => _RunningDashboardState();
 }
 
-// keep track of entries
+
+
 
 double distance = 0;
 Map<String, String> trackRunData = {};
@@ -47,7 +49,16 @@ int? speed = 0;
 late DateTime startRun;
 String twoDigits(int n) => n.toString().padLeft(2, '0');
 
+
+YoutubePlayerController controller = YoutubePlayerController(initialVideoId: "tJYLSNYGM7I",flags: YoutubePlayerFlags(autoPlay: true));
+  List<String> youtubeLinks = [
+    "https://www.youtube.com/watch?v=d8OL6m0ZblA",
+    "https://www.youtube.com/watch?v=EfZPNF8xQ6Y",
+    "https://www.youtube.com/watch?v=tJYLSNYGM7I",
+  ];
+
 List<HealthDataPoint> _healthDataList = [];
+
 
 // steps and distance
 Future fetchData() async {
@@ -106,6 +117,8 @@ Future fetchData() async {
   }
 }
 
+
+
 class _RunningDashboardState extends State<RunningDashboard> {
   @override
    FirebaseAuth auth = FirebaseAuth.instance;
@@ -115,12 +128,25 @@ class _RunningDashboardState extends State<RunningDashboard> {
   Timer? timer;
   late Stream sub;
   late Stream averageStream;
+  //late YoutubePlayerController controller;
+
+
+
+  
 
   // STREAMS
+  // should change stream every 10 seconds based on the youtuveLinks
   Stream<dynamic> youTubeStream = (() async* {
     while (isTrue) {
-      await Future.delayed(Duration(seconds: 60));
-      yield "Youtube player inserted here for $bpm";
+      await Future.delayed(Duration(seconds: 10));
+      int index = count.round() % 3;
+      print("at index $index");
+      String links = youtubeLinks[index];
+      String? videoID = YoutubePlayer.convertUrlToId(links);
+      videoID ??= "EfZPNF8xQ6Y";
+      print("Video id is $videoID");
+      controller = YoutubePlayerController(initialVideoId: videoID, flags: YoutubePlayerFlags(autoPlay: true));
+      yield controller;
     }
   })();
 
@@ -158,8 +184,10 @@ class _RunningDashboardState extends State<RunningDashboard> {
   @override
   void initState() {
     super.initState();
+     controller = YoutubePlayerController(initialVideoId: "tJYLSNYGM7I",flags: YoutubePlayerFlags(autoPlay: true));
     // TODO: implement initState
     setState(() {
+      
        user = auth.currentUser;
        uid = user?.uid;
       isTrue = true;
@@ -179,6 +207,7 @@ class _RunningDashboardState extends State<RunningDashboard> {
 
     super.dispose();
     timer?.cancel();
+    controller.dispose();
   }
 
   void startTimer() {
@@ -261,41 +290,27 @@ class _RunningDashboardState extends State<RunningDashboard> {
             Center(child: buildTime()),
 
             SizedBox(height: 20),
-            // bpm;\
+           
             // youtube player goes here
-            SizedBox(
-              height: 200,
-              child: StreamBuilder(
+            StreamBuilder(
                 stream: youTubeStream,
-                initialData: "Calculating bpm...",
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Container(
+                    return CircularProgressIndicator();
+                  } else if(snapshot.connectionState == ConnectionState.active){
+                    return SizedBox(
                         height: 200,
                         width: 150,
-                        decoration: BoxDecoration(
-                            color: Colors.yellow,
-                            border: Border.all(
-                              width: 2,
-                              color: Colors.deepOrange,
-                            )),
-                        child: Text("${snapshot.data}"));
-                  } else {
-                    return Container(
-                        height: 200,
-                        width: 150,
-                        decoration: BoxDecoration(
-                            color: Colors.yellow,
-                            border: Border.all(
-                              width: 2,
-                              color: Colors.deepOrange,
-                            )),
-                        child: Text("${snapshot.data}"));
+                        child: YoutubePlayer(controller: snapshot.data));
                   }
+                  else {
+                    return Text("Error");
+                  }
+                  
                 },
               ),
-            ),
-
+            
+            // cards to display data
             SizedBox(height: 20),
             SizedBox(
               height: 300,
@@ -372,7 +387,9 @@ class _RunningDashboardState extends State<RunningDashboard> {
             Center(
               child: GestureDetector(
                   onTap: () {
-
+                    setState(() {
+                      isTrue = false;
+                    });
                     stopRun();
                     Navigator.pop(context);
                     // get current data and send to firebase

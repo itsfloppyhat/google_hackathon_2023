@@ -45,6 +45,7 @@ dependencies:
   go_router: ^10.0.0
   bottom_nav_layout: ^3.0.10
   health: ^7.0.1
+  youtube_player_flutter: ^8.1.2
 
 dev_dependencies:
   flutter_test:

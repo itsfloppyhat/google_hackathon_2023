@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class HealthCard extends StatefulWidget {
   final String title;
   final String displayData;
