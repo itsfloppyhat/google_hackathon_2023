@@ -55,6 +55,9 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _selectedIndex,
         onTap: _bottomNavigationBar,
         type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.black,
+        unselectedItemColor: Colors.green,
+        selectedItemColor: Color.fromARGB(255, 172, 237, 81), // <-- This works for fixed
         items:[
           BottomNavigationBarItem(icon: Icon(Icons.run_circle), label: 'Start Run'),
           BottomNavigationBarItem(icon: Icon(Icons.headphones), label: 'Music'),

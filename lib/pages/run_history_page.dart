@@ -16,46 +16,46 @@ class _RunHistoryPageState extends State<RunHistoryPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   User ?user;
   String? uid;
+  List<String> docIDs = [];
 
-  Map <String,dynamic> myRunHistory = {};
-  Future getRunHistory () async {
-    await FirebaseFirestore.instance.collection("run_history").where('User', isEqualTo: uid).get().then((snapshot) => snapshot.docs.forEach((element) {
-      print(element.reference);
-    }));
+  Future getDocIds() async {
+    print("Im called");
+    await FirebaseFirestore.instance.collection("run_history").get().then(
+      (snapshot) => snapshot.docs.forEach((document) {
+        print(document.reference);
+        docIDs.add(document.reference.id);
+      }),);
 
   }
+
+ 
+
 @override
 void initState() {
     // TODO: implement initState
     super.initState();
     user = auth.currentUser;
        uid = user?.uid;
+       //_runHistoryStream =  FirebaseFirestore.instance.collection("run_history").where('User', isEqualTo: uid).snapshots();
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: FutureBuilder(
-          future: getRunHistory(),
-          builder: (context,snapshot){
-            if(snapshot.connectionState == ConnectionState.waiting)
-            {
-              return CircularProgressIndicator();
-            }
-            else if(snapshot.hasError) {
-              return Text("Error");
-            }
-            else {
-                return ListView.builder(
-                  itemCount: 1,
-                  itemBuilder: ((context, index) {
-                  return RunHistoryCards(distance: index.toString(), heartRate: index.toString(), hours: index.toString(), minutes: index.toString(), mydate: index.toString(), seconds: index.toString(), steps: index.toString(),);
-                  
-                }));
-            }
+          future: getDocIds(),
+          builder: (context, snapshot) {
+            return ListView.builder(
+              itemCount: docIDs.length,
+              itemBuilder: ((context, index) {
+                return ListTile(
+                  title: runHistoryCards(documentiD: docIDs[index])
+                );
+              }));
 
-        })
+          }),
       ),
     );
   }
 }
+// RunHistoryCards(distance: index.toString(), heartRate: index.toString(), hours: index.toString(), minutes: index.toString(), mydate: index.toString(), seconds: index.toString(), steps: index.toString(),);

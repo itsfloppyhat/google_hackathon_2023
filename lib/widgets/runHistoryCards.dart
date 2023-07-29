@@ -1,18 +1,67 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class RunHistoryCards extends StatefulWidget {
-  final String mydate, hours,minutes,seconds,steps,distance,heartRate;
-  
-  const RunHistoryCards({super.key, required this.mydate, required this.hours, required this.minutes, required this.seconds, required this.steps, required this.distance, required this.heartRate});
+class runHistoryCards extends StatelessWidget {
+  final String documentiD;
+   runHistoryCards({super.key, required this.documentiD});
+  CollectionReference run = FirebaseFirestore.instance.collection("run_history");
 
-  @override
-  State<RunHistoryCards> createState() => _RunHistoryCardsState();
-}
-
-class _RunHistoryCardsState extends State<RunHistoryCards> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return FutureBuilder(
+      future: run.doc(documentiD).get(),
+      builder: ((context, snapshot) {
+        if(snapshot.connectionState == ConnectionState.done) {
+          Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+          return Container(
+      height: 100,
+      width: 200,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
+        color: Colors.orange,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal:8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Date: ${data["Date"]}"),
+            Text("Duration: ${data["Hours"]}:${data["Minutes"]}: ${data["Seconds"]}"),
+            Text("Steps: ${data["STEPS"]}"),
+            Text("Distance: ${data["DISTANCE"]}"),
+            Text("Heart Rate: ${data["HEART_RATE"]}"),
+      
+          ],
+        ),
+      ),
+    );
+        }
+        return CircularProgressIndicator();
+      })
+      
+      
+      );
+  }
+}
+
+/*
+FutureBuilder<DocumentSnapshot>(
+      future: run.doc(documentiD).get(),
+      builder: ((context, snapshot){
+        if(snapshot.connectionState == ConnectionState.done) {
+          Map<String, String> data = snapshot.data!.data() as Map<String, String>;
+          return Text("Hello");
+        }
+        return CircularProgressIndicator();
+
+      }));
+  }
+}
+
+*/
+/*
+
+Container(
       height: 100,
       width: 200,
       decoration: BoxDecoration(
@@ -21,18 +70,18 @@ class _RunHistoryCardsState extends State<RunHistoryCards> {
       ),
       child: Column(
         children: [
-          Text("Date: ${widget.mydate}", style: TextStyle(
+          Text("Date: ", style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
             
           ),),
-          Text("Duration: ${widget.hours}:${widget.minutes},${widget.hours}"),
-          Text("Steps: ${widget.steps}"),
-          Text("Distance: ${widget.distance}"),
-          Text("Heart Rate: ${widget.heartRate}"),
+          Text("Duration: :,"),
+          Text("Steps: "),
+          Text("Distance: "),
+          Text("Heart Rate: "),
 
         ],
       ),
     );
-  }
-}
+
+*/
