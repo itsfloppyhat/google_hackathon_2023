@@ -35,7 +35,7 @@ class RunningDashboard extends StatefulWidget {
 
 
 
-
+double fixedDistance = 0;
 double distance = 0;
 Map<String, String> trackRunData = {};
 List<double> averageBpmList = [];
@@ -46,6 +46,9 @@ double count = 0;
 bool isTrue = false;
 int? steps = 0;
 int? speed = 0;
+double distanceTest = 0;
+double stepsTest = 0;
+int heartRate = 80;
 late DateTime startRun;
 String twoDigits(int n) => n.toString().padLeft(2, '0');
 
@@ -126,35 +129,31 @@ class _RunningDashboardState extends State<RunningDashboard> {
   String? uid;
   Duration duration = Duration();
   Timer? timer;
-  late Stream sub;
-  late Stream averageStream;
   //late YoutubePlayerController controller;
-
-
-
-  
-
-  // STREAMS
-  // should change stream every 10 seconds based on the youtuveLinks
   Stream<dynamic> youTubeStream = (() async* {
     while (isTrue) {
-      await Future.delayed(Duration(seconds: 10));
       int index = count.round() % 3;
       print("at index $index");
       String links = youtubeLinks[index];
       String? videoID = YoutubePlayer.convertUrlToId(links);
       videoID ??= "EfZPNF8xQ6Y";
       print("Video id is $videoID");
-      controller = YoutubePlayerController(initialVideoId: videoID, flags: YoutubePlayerFlags(autoPlay: true));
-      yield controller;
+       controller.load(videoID);
+      await Future.delayed(Duration(seconds: 120));
+      yield (isTrue) ? controller: null;
     }
+     yield (isTrue) ? controller: throw "Error";
+  
   })();
 
-  Stream<dynamic> healthKitStream = (() async* {
+
+ 
+
+Stream<dynamic> healthKitStream = (() async* {
     while (isTrue) {
       Map<String, String> streamData = {};
 
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(Duration(seconds: 1));
       streamData = await fetchData();
       print("Received data in healthkitStream $streamData");
 
@@ -164,21 +163,36 @@ class _RunningDashboardState extends State<RunningDashboard> {
         var mysteps = double.tryParse(check!);
         if (mysteps != null) {
           //print("Success!");
-          paceSum += mysteps;
+          paceSum += stepsTest;
         } else {
           print("Failure!");
           paceSum = 0;
         }
-        streamData["STEPS"] ??= "0";
-        streamData["HEART_RATE"] ??= "0";
-        streamData["DISTANCE"] ??= "0";
+       fixedDistance = double.parse((distanceTest).toStringAsFixed(3));
+        distanceTest = fixedDistance;
+        streamData["STEPS"] = stepsTest.toString();
+        streamData["HEART_RATE"] = heartRate.toString();
+        streamData["DISTANCE"] = fixedDistance.toString();
+        streamData["BPM"] = bpm.toString();
         // put here if distance is equal to goal distance. if true make distance reached true
       }
+      stepsTest++;
+      if(heartRate < 120)
+      {
+         heartRate++;
+      }
+      else
+      {
+        heartRate--;
+      }
+      
+      distanceTest += 0.01;
 
 
       count++;
       yield streamData;
     }
+    
   })();
 
   @override
@@ -186,8 +200,9 @@ class _RunningDashboardState extends State<RunningDashboard> {
     super.initState();
      controller = YoutubePlayerController(initialVideoId: "tJYLSNYGM7I",flags: YoutubePlayerFlags(autoPlay: true));
     // TODO: implement initState
-    setState(() {
-      
+        distanceTest = 0;
+      stepsTest = 0;
+       heartRate = 80;
        user = auth.currentUser;
        uid = user?.uid;
       isTrue = true;
@@ -197,7 +212,7 @@ class _RunningDashboardState extends State<RunningDashboard> {
       startRun = DateTime.now();
       startTimer();
       calculateBpm();
-    });
+    
   }
 
 // get data
@@ -208,6 +223,7 @@ class _RunningDashboardState extends State<RunningDashboard> {
     super.dispose();
     timer?.cancel();
     controller.dispose();
+    
   }
 
   void startTimer() {
@@ -222,30 +238,33 @@ class _RunningDashboardState extends State<RunningDashboard> {
     });
   }
 
-  void stopRun() async {
-    
-    isTrue = false;
+  Future stopRun() async {
+    //isTrue = false;
     final endMinutes = twoDigits(duration.inMinutes.remainder(60));
     final endSeconds = twoDigits(duration.inSeconds.remainder(60));
     final endHours = twoDigits(duration.inHours.remainder(60));
       
 
 
-    timer?.cancel();
+    
     Map<String, String> endData = {
       "Minutes": endMinutes,
       "Seconds": endSeconds,
       "Hours": endHours,
       "User" : uid!,
+      "Date" : DateTime.now().toString(),
+      "DISTANCE": fixedDistance.toString(),
+      "HEART_RATE": heartRate.toString(),
+      "STEPS": stepsTest.toString(),
       
     };
+ print(endData);
 
-
-    trackRunData.addAll(endData);
-    await FirebaseFirestore.instance.collection("run_history").add(trackRunData);
+    
+    await FirebaseFirestore.instance.collection("run_history").add(endData);
     print("Run ended total Stats");
-    print(trackRunData);
-
+   
+    
     
 
     // end stream
@@ -257,7 +276,7 @@ class _RunningDashboardState extends State<RunningDashboard> {
       await Future.delayed(Duration(seconds: 60));
       // calculate bpm
 
-      bpm = paceSum/count;
+      bpm = count * 2;
       count = 0;
       paceSum = 0;
       averageBpmList.add(bpm);
@@ -297,13 +316,16 @@ class _RunningDashboardState extends State<RunningDashboard> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return CircularProgressIndicator();
-                  } else if(snapshot.connectionState == ConnectionState.active){
+                  } else if(snapshot.connectionState == ConnectionState.active && isTrue == true){
+                    
+                    print((snapshot.connectionState == ConnectionState.active));
                     return SizedBox(
                         height: 200,
                         width: 150,
                         child: YoutubePlayer(controller: snapshot.data));
                   }
                   else {
+  
                     return Text("Error");
                   }
                   
@@ -348,7 +370,7 @@ class _RunningDashboardState extends State<RunningDashboard> {
                             image: "lib/images/chronometer.png"),
                       ],
                     );
-                  } else {
+                  } else if(snapshot.connectionState == ConnectionState.active && isTrue == true) {
                     return GridView.count(
                       physics: NeverScrollableScrollPhysics(),
                       mainAxisSpacing: 20,
@@ -373,11 +395,14 @@ class _RunningDashboardState extends State<RunningDashboard> {
                             image: "lib/images/heart.png"),
                         HealthCard(
                             title: "BPM",
-                            displayData: bpm.toString(),
+                            displayData: snapshot.data["BPM"],
                             color: Colors.green,
                             image: "lib/images/chronometer.png"),
                       ],
                     );
+                  }
+                  else {
+                    return Text("Error");
                   }
                 },
               ),
@@ -386,12 +411,13 @@ class _RunningDashboardState extends State<RunningDashboard> {
             // stop button
             Center(
               child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isTrue = false;
-                    });
-                    stopRun();
+                  onTap: ()  {
+                    //dispose();
+                    isTrue = false;
                     Navigator.pop(context);
+                    stopRun();
+                    timer?.cancel();
+                   
                     // get current data and send to firebase
                     // then go to run history
                   },
